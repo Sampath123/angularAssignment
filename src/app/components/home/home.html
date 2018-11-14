@@ -1,4 +1,126 @@
-<div ui-view='header'></div>
+<div ui-view='header' xmlns="http://www.w3.org/1999/html"></div>
 <div ng-controller="homeCtrl as home">
-	<h1 ng-bind="home.welcomeText"></h1>
+
+	<div class="container">
+
+		<div class="row">
+			<div style="border: 3px solid gray;background-color:lightblue;"class="col-sm-12">
+			<div class="col-sm-4" style=" border-right: 1px solid;border-right-color: gray;">
+				<b><h1>Filters</h1></b><br>
+				<lable><b>Exterior Color</b></lable><hr>
+				<lable>Select as many as you like:</lable><br>
+				<button><span ng-repeat="x in filterDefinations" class="dot"
+					  style="height: 25px;  width: 25px; background-color: {{x.SwatchHexCode.substr(2)}};
+					  border-radius: 50%; display: inline-block;" ng-click="selectCarColor(x.ID)">
+				</span></button><br><br>
+				<div>
+					<label>Interior Color</label><hr>
+					<button style="text-align:left">
+						<span ng-repeat="x1 in interiorcolor" ng-click="selectInteriorCarColor(x1.ID)">
+							<img src="{{x1.SwatchUrl}}"> {{x1.Group}}<br></span>
+					</button><br>
+					<br><br>
+				</div>
+
+				<div>
+					<label>Price</label><hr>
+					<input type="hidden" ng-model="rangeval" />
+					<div class="slidecontainer">
+						<input type="range" min="1" max="{{maxVal}}" ng-model="rangeval" value="8" class="slider"
+							   id="myRange" ng-change='allFordCarForRange(rangeval)'>
+						<label>{{minPrice}}</label><label style="margin-left: 77%;">{{maxPrice}}</label>
+
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-8">
+				<div class="row">
+					<div class="col-sm-4"><h1><a ng-click="allFordCars(null)">Dashboard</a></h1></div>
+				<div class="col-sm-8">
+
+					<!--<select ng-change='allFordCars(selectedCar)' value="Select" ng-model="selectedCar" style="margin-left: 70%;margin-top: 5%;" class="btn btn-primary" selected>
+						<option value="Select" selected>Select</p></option>
+						<option value="asc" >Sort by Low to high</p></option>
+						<option value="desc">Sort by High to Low</option>
+					</select>-->
+
+					<div class="dropdown" style="margin-left: 70%;margin-top: 5%;">
+						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="optionButton">Sort by Low to high
+							<span class="caret"></span></button>
+						<ul class="dropdown-menu" >
+							<li ng-click='allFordCars("asc")'>Sort by Low to high</li>
+							<li ng-click='allFordCars("desc")'>Sort by High to Low</li>
+
+						</ul>
+					</div>
+				</div></div>
+
+				<div ng-init="allFordCars(null)"><h4><span ng-repeat="VinValue in VinValues" >
+					<div style="border: 3px solid gray;background-color:lightblue;" class="col-sm-6">
+					<img src="http://build.ford.com/dig/Ford/{{VinValue.Model.ModelName}}/{{VinValue.Model.Year}}/HD-FULL/{{VinValue.ImageToken}}/EXT/1/vehicle.png?r=NaN" width="200" height="200"><br>
+					{{VinValue.Model.Year}} {{VinValue.Model.ModelName}} {{VinValue.NormalizeAspiration}} <hr>
+					<b>Net Price: </b>{{VinValue.Pricing.MSRP}}<br>
+					VIN:{{VinValue.Vin}}<br>
+					<!-- <md-button ui-sref="about" class="btn btn-success">
+						View Details
+					</md-button>-->
+						<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"
+							 ng-click="selectCarDetails(VinValue)">View Details</button>
+					<br><br></div>
+				</span></h4></div>
+			</div>
+		</div>
+		</div>
+	</div>
+
+
+
+<div class="modal fade" id="myModal" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<div class="col-sm-6"><img src="http://build.ford.com/dig/Ford/{{singleVinValues.Model.ModelName}}/{{singleVinValues.Model.Year}}/HD-FULL/{{singleVinValues.ImageToken}}/EXT/1/vehicle.png?r=NaN" width="200" height="200"></div>
+				<div class="col-sm-6">
+					<div><b><p>{{singleVinValues.Model.Year}} {{singleVinValues.Model.ModelName}} {{singleVinValues.NormalizeAspiration}}</p></b></div>
+				<div> <b> <p> Price: {{singleVinValues.Pricing.MSRP}}</p></b></div>
+				<div><button class="btn btn-success">Get an Internet Price</button></div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="col-sm-6" >
+					<b style="color:#5cb85c"><p>Pricing Summary</p></b>
+					Base MSRP: ${{singleVinValues.Pricing.BaseMSRP}}<br>
+					Totals of options:  ${{singleVinValues.Pricing.Options}}<br>
+					Destination Changes:${{singleVinValues.Pricing.DestinationDeliveryCharge}}<br>
+					Total MSRP: ${{singleVinValues.Pricing.MSRP}}<br>
+					Net Price:{{netPrice}}
+				</div>
+				<div class="col-sm-6" style="border: 1px solid gray;">
+					<b style="color:#5cb85c"><p><h4>Your Vehicles</h4></p></b>
+
+					Base MSRP: ${{singleVinValues.Pricing.BaseMSRP}}<br>
+					Totals of options:  ${{singleVinValues.Pricing.Options}}<br>
+					Destination Changes:${{singleVinValues.Pricing.DestinationDeliveryCharge}}<br>
+					Total MSRP: ${{singleVinValues.Pricing.MSRP}}<br>
+					Net Price:{{netPrice}}
+				</div>
+			</div>
+			<div >
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
+
+
+
+
+
 </div>
