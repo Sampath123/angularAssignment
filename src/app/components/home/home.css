@@ -1,0 +1,22 @@
+.leftSideCol {
+border: 1px solid gray;background-color:#ece4e41f;
+}
+.dropdown {
+margin-left: 70%;margin-top: 5%;
+}
+.filterDefination {
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.interiorColor {
+    text-align:left
+}
+.maxPrice {
+    margin-left: 77%;
+}
+.viewDetails {
+    margin-left: 35%;
+    margin-top: 4%;
+}

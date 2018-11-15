@@ -3,22 +3,21 @@
 
     <div class="container">
         <div class="row">
-            <div style="border: 3px solid gray;background-color:lightblue;" class="col-sm-12">
-                <div class="col-sm-4" style=" border-right: 1px solid;border-right-color: gray;">
+            <div class="leftSideCol col-sm-12">
+                <div class="col-sm-4" >
                     <b><h1>Filters</h1></b><br>
                     <lable><b>Exterior Color</b></lable>
                     <hr>
                     <lable>Select as many as you like:</lable>
                     <br>
-                    <button><span ng-repeat="x in filterDefinations" class="dot"
-                                  style="height: 25px;  width: 25px; background-color: {{x.SwatchHexCode.substr(2)}};
-					  border-radius: 50%; display: inline-block;" ng-click="selectCarColor(x.ID)">
+                    <button><span ng-repeat="x in filterDefinations" class="dot filterDefination"
+                                  style="background-color: {{x.SwatchHexCode.substr(2)}};" ng-click="selectCarColor(x.ID)">
 				</span></button>
                     <br><br>
                     <div>
                         <label>Interior Color</label>
                         <hr>
-                        <button style="text-align:left">
+                        <button class="interiorColor">
 						<span ng-repeat="x1 in interiorcolor" ng-click="selectInteriorCarColor(x1.ID)">
 							<img src="{{x1.SwatchUrl}}"> {{x1.Group}}<br></span>
                         </button>
@@ -32,7 +31,7 @@
                         <div class="slidecontainer">
                             <input type="range" min="1" max="{{maxVal}}" ng-model="rangeval" value="8" class="slider"
                                    id="myRange" ng-change='allFordCarForRange(rangeval)'>
-                            <label>{{minPrice}}</label><label style="margin-left: 77%;">{{maxPrice}}</label>
+                            <label>{{minPrice}}</label><label class="maxPrice">{{maxPrice}}</label>
                         </div>
                     </div>
                 </div>
@@ -40,7 +39,7 @@
                     <div class="row">
                         <div class="col-sm-4"><h1><a ng-click="allFordCars(null)">Dashboard</a></h1></div>
                         <div class="col-sm-8">
-                            <div class="dropdown" style="margin-left: 70%;margin-top: 5%;">
+                            <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
                                         id="optionButton">Sort by Low to high
                                     <span class="caret"></span></button>
@@ -55,13 +54,13 @@
 
                     <div ng-init="allFordCars(null)">
                         <h4><span ng-repeat="VinValue in VinValues">
-					<div style="border: 3px solid gray;background-color:lightblue;" class="col-sm-6">
+					<div class="leftSideCol col-sm-6">
 					<img src="http://build.ford.com/dig/Ford/{{VinValue.Model.ModelName}}/{{VinValue.Model.Year}}/HD-FULL/{{VinValue.ImageToken}}/EXT/1/vehicle.png?r=NaN"
                          width="200" height="200"><br>
 					{{VinValue.Model.Year}} {{VinValue.Model.ModelName}} {{VinValue.NormalizeAspiration}} <hr>
 					<b>Net Price: </b>{{VinValue.Pricing.MSRP}}<br>
 					VIN:{{VinValue.Vin}}<br>
-						<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"
+						<button type="button" class="btn btn-success viewDetails" data-toggle="modal" data-target="#myModal"
                                 ng-click="selectCarDetails(VinValue)">View Details</button>
 					<br><br></div>
 				</span></h4>
@@ -74,7 +73,7 @@
         <div class="modal-dialog">
 
             <!-- Modal content-->
-            <div class="modal-content">
+            <div class="modal-content" style="height: 70%;">
 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -110,7 +109,7 @@
                     </div>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 85%; margin-top: 4%;">Close</button>
                 </div>
             </div>
         </div>
